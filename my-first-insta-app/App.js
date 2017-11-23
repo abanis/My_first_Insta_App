@@ -12,7 +12,7 @@ const colors = {
 const loginButtonInfo = {
     height: 45,
     pageFontSize: 11,
-    borderWidth: 0.8,
+    borderWidth: 1,
     borderRadius: 5
 }
 
@@ -57,11 +57,11 @@ export default class App extends Component {
              />
 
           <LoginButton
-                buttonViewsStyles={viewStyles.buttonViewStyle}
-                buttonTextStyle={{color: colors.text, fontWeight: '500'}}
-                buttonTapped={this.loginButtonPressed}
-                activeOpacity={0.75}
-                >
+            buttonViewStyle={viewStyles.instagramLoginButtonView}
+            buttonTextStyle={{color: colors.text, fontWeight: '500'}}
+            buttonTapped={this.loginButtonPressed}
+            activeOpacity={0.75}
+            >
                 Log In
             </LoginButton>
 
@@ -96,9 +96,9 @@ const viewStyles = {
   },
   instagramLoginButtonView: {
     backgroundColor: 'transparent',
-    borderColor: colors.instagramButtonBoderColor,
+    borderColor: colors.instagramButtonBorder,
     borderWidth: loginButtonInfo.borderWidth,
-    boderRadius: loginButtonInfo.boderRadius,
+    borderRadius: loginButtonInfo.boderRadius,
     width: '80%',
     height: loginButtonInfo.height,
     justifyContent: 'center',
