@@ -6,6 +6,7 @@ import Dimensions from 'Dimensions';
 
 const windowSize = Dimensions.get('window');
 const standardComponentWidth = windowSize.width * 0.82;
+const twitterIconSize = 17;
 
 
 const colors = {
@@ -40,7 +41,25 @@ export default class App extends Component {
     console.log("Button was pressed !!!")
   }
 
-  loginScreenComponent =() => {
+  loginWithTwitterComponent = () => {
+    return(
+      <View style={viewStyles.twitterLoginViewStyle}>
+        <Image
+          source={require('./src/images/twitter_bird.png')}
+          style={viewStyles.twitterIcon}
+          resizeMode={'contain'}
+        />
+        <TappableText
+         textStyle={[textStyles.forgottenLogin, textStyles.forgottenLoginBold, textStyles.twitterLogin]}
+         textTapped={ () => Linking.openURL(urls.twitterLogin)}
+        >
+          Get help signing In
+        </TappableText>
+      </View>
+    );
+  }
+
+  loginScreenComponent = () => {
     return(
         <ImageBackground
           source={require('./src/images/insta-background-4.jpg')}
@@ -61,35 +80,44 @@ export default class App extends Component {
                resizeMode={'contain'}
              />
 
-          <LoginButton
-            buttonViewStyle={viewStyles.instagramLoginButtonView}
-            buttonTextStyle={{color: colors.text, fontWeight: '500'}}
-            buttonTapped={this.loginButtonPressed}
-            touchableHighlightStyle={viewStyles.instagramButtonTouchableHighlightStyle}
-            activeOpacity={0.75}
-            >
-                Log In (Via instagram)
-            </LoginButton>
-
             <LoginButton
-              buttonViewStyle={[viewStyles.instagramLoginButtonView, viewStyles.facebookLoginButtonView]}
+              buttonViewStyle={viewStyles.instagramLoginButtonView}
               buttonTextStyle={{color: colors.text, fontWeight: '500'}}
               buttonTapped={this.loginButtonPressed}
-              touchableHighlightStyle={[viewStyles.instagramButtonTouchableHighlightStyle, viewStyles.facebookButtonTouchableHighlightStyle]}
+              touchableHighlightStyle={viewStyles.instagramButtonTouchableHighlightStyle}
               activeOpacity={0.75}
               >
-                  Facebook Login
+                  Log In (Via instagram)
               </LoginButton>
 
-              <View style={viewStyles.forgottenLoginEncapsulationView}>
-              <Text style={textStyles.forgottenLogin}>Forgot your login details?</Text>
-              <TappableText
-               textStyle={[textStyles.forgottenLogin, textStyles.forgottenLoginBold]}
-               textTapped={ () => Linking.openURL(urls.forgotInstagramLogin)}
-               >
-               Get help signing in</TappableText>
+              <LoginButton
+                buttonViewStyle={[viewStyles.instagramLoginButtonView, viewStyles.facebookLoginButtonView]}
+                buttonTextStyle={{color: colors.text, fontWeight: '500'}}
+                buttonTapped={this.loginButtonPressed}
+                touchableHighlightStyle={[viewStyles.instagramButtonTouchableHighlightStyle, viewStyles.facebookButtonTouchableHighlightStyle]}
+                activeOpacity={0.75}
+                >
+                    Facebook Login
+                </LoginButton>
 
+              <View style={viewStyles.forgottenLoginEncapsulationView}>
+                <Text style={textStyles.forgottenLogin}>Forgot your login details?</Text>
+                <TappableText
+                   textStyle={[textStyles.forgottenLogin, textStyles.forgottenLoginBold, textStyles.instagramLogin]}
+                   textTapped={ () => Linking.openURL(urls.forgotInstagramLogin)}
+                >
+                  Get help signing In
+                </TappableText>
               </View>
+
+              <View style={viewStyles.orSeparator}>
+                 <View style={viewStyles.orSeparatorLine}/>
+                 <Text style={textStyles.orSeparatorTextStyle}>OR</Text>
+                 <View style={viewStyles.orSeparatorLine}/>
+              </View>
+
+              {this.loginWithTwitterComponent()}
+
           </ScrollView>
 
         </ImageBackground>
@@ -111,7 +139,6 @@ const viewStyles = {
   container: {
     flex: 1,
     alignItems: 'center',
-
   },
   instagramTextLogo: {
       width: 150,
@@ -141,6 +168,13 @@ const viewStyles = {
     marginBottom: 5
   },
 
+  twitterLoginViewStyle:{
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center'
+
+  },
+
   facebookLoginButtonView: {
     backgroundColor: colors.facebook
   },
@@ -151,6 +185,32 @@ const viewStyles = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent'
+    },
+  orSeparator:{
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 14,
+    paddingHorizontal: 5
+  },
+  orSeparatorLine :{
+    height: 1,
+    flex: 5,
+    backgroundColor: colors.instagramButtonBorder,
+    borderColor: colors.instagramButtonBorder,
+    borderWidth: 0.5,
+    marginHorizontal: 4
+  },
+  twitterLoginViewStyle: {
+    marginTop: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  twitterIcon: {
+    width: twitterIconSize,
+    height: twitterIconSize
   }
 
 };
@@ -165,6 +225,12 @@ const textStyles = {
   forgottenLoginBold:{
     fontWeight: 'bold',
     marginLeft: 3
+  },
+  orSeparatorTextStyle: {
+    color: 'white',
+    backgroundColor: 'transparent',
+    fontWeight: 'bold',
+    fontSize: 13
   }
 
 };
