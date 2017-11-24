@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
-import { Text, View, ImageBackground, Image, StatusBar, ScrollView } from 'react-native';
+import { Text, View, ImageBackground, Image, StatusBar, ScrollView, Linking } from 'react-native';
 import LoginButton from './src/components/LoginButton';
+import TappableText from './src/components/TappableText';
+import Dimensions from 'Dimensions';
+
+const windowSize = Dimensions.get('window');
+const standardComponentWidth = windowSize.width * 0.82;
 
 
 const colors = {
@@ -11,8 +16,8 @@ const colors = {
 
 const loginButtonInfo = {
     height: 45,
-    pageFontSize: 11,
-    borderWidth: 1,
+    pageFontSize: 12,
+    borderWidth: 0.8,
     borderRadius: 5
 }
 
@@ -38,7 +43,7 @@ export default class App extends Component {
   loginScreenComponent =() => {
     return(
         <ImageBackground
-          source={require('./src/images/insta-background-1.jpg')}
+          source={require('./src/images/insta-background-4.jpg')}
           resizeMode={'cover'}
           style={viewStyles.container}
         >
@@ -60,11 +65,31 @@ export default class App extends Component {
             buttonViewStyle={viewStyles.instagramLoginButtonView}
             buttonTextStyle={{color: colors.text, fontWeight: '500'}}
             buttonTapped={this.loginButtonPressed}
+            touchableHighlightStyle={viewStyles.instagramButtonTouchableHighlightStyle}
             activeOpacity={0.75}
             >
-                Log In
+                Log In (Via instagram)
             </LoginButton>
 
+            <LoginButton
+              buttonViewStyle={[viewStyles.instagramLoginButtonView, viewStyles.facebookLoginButtonView]}
+              buttonTextStyle={{color: colors.text, fontWeight: '500'}}
+              buttonTapped={this.loginButtonPressed}
+              touchableHighlightStyle={[viewStyles.instagramButtonTouchableHighlightStyle, viewStyles.facebookButtonTouchableHighlightStyle]}
+              activeOpacity={0.75}
+              >
+                  Facebook Login
+              </LoginButton>
+
+              <View style={viewStyles.forgottenLoginEncapsulationView}>
+              <Text style={textStyles.forgottenLogin}>Forgot your login details?</Text>
+              <TappableText
+               textStyle={[textStyles.forgottenLogin, textStyles.forgottenLoginBold]}
+               textTapped={ () => Linking.openURL(urls.forgotInstagramLogin)}
+               >
+               Get help signing in</TappableText>
+
+              </View>
           </ScrollView>
 
         </ImageBackground>
@@ -91,22 +116,55 @@ const viewStyles = {
   instagramTextLogo: {
       width: 150,
       height: 80,
-      marginTop: '65%',
-      marginBottom: 25
+      marginTop: '35%',
+      marginBottom: 25,
+      alignSelf: 'center'
   },
   instagramLoginButtonView: {
     backgroundColor: 'transparent',
     borderColor: colors.instagramButtonBorder,
     borderWidth: loginButtonInfo.borderWidth,
-    borderRadius: loginButtonInfo.boderRadius,
-    width: '80%',
+    borderRadius: loginButtonInfo.borderRadius,
+    width: standardComponentWidth,
     height: loginButtonInfo.height,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  instagramButtonTouchableHighlightStyle: {
+    backgroundColor: 'transparent',
+    width: standardComponentWidth,
+    height: loginButtonInfo.height,
+    marginTop: 5
+  },
+  facebookButtonTouchableHighlightStyle: {
+    marginTop: 20,
+    marginBottom: 5
+  },
 
+  facebookLoginButtonView: {
+    backgroundColor: colors.facebook
+  },
+  forgottenLoginEncapsulationView: {
+    flexDirection: 'row',
+    flex: 1,
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent'
   }
+
 };
 
-const textStyles = {
 
-}
+const textStyles = {
+  forgottenLogin:{
+    color: 'white',
+    fontSize: loginButtonInfo.pageFontSize,
+    backgroundColor: 'transparent'
+  },
+  forgottenLoginBold:{
+    fontWeight: 'bold',
+    marginLeft: 3
+  }
+
+};
